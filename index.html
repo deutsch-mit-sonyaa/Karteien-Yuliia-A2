@@ -6,24 +6,24 @@
 <style>
 /* Layout: one centred column (max 680px). Lesson chips + mode on top, one flip card as the hero, two answer buttons; Practice tab with four self-checks; settings & progress code at the bottom. Palette = The People brand: cream, dusty pink, chocolate, blue-grey. */
 :root{
-  --bg:#EDF2FC; --surface:#FAFBFF; --surface-2:#E1E9F8; --ink:#1F2A44; --muted:#5B6890; --line:#D0DBF0;
-  --pink:#D4A29C; --pink-soft:#F3E0DB; --pink-ink:#8E4F48;
-  --blue:#4F73C4; --blue-soft:#DCE6F9; --blue-ink:#2C4A8C;
+  --bg:#F6F4F1; --surface:#FFFFFF; --surface-2:#EFECE8; --ink:#25222A; --muted:#6C6872; --line:#E3DFDA;
+  --pink:#9A9CA6; --pink-soft:#ECEDF0; --pink-ink:#4C4F5A;
+  --blue:#7A4F76; --blue-soft:#F0E8EF; --blue-ink:#4F2E4C;
   --good:#4F7F5E; --good-soft:#DCEBDF; --bad:#A9564E; --bad-soft:#F5DEDA;
-  --shadow:0 1px 0 rgba(31,42,68,.04),0 12px 30px -14px rgba(31,42,68,.28);
+  --shadow:0 1px 0 rgba(37,34,42,.04),0 12px 30px -14px rgba(37,34,42,.25);
   --display:"Bricolage Grotesque",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
   --body:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#171C2B; --surface:#1F2638; --surface-2:#283049; --ink:#E6EBF8; --muted:#A3AECB; --line:#313B5A;
-  --pink:#C99189; --pink-soft:#46302C; --pink-ink:#F0C3BC;
-  --blue:#8FAAE6; --blue-soft:#26325A; --blue-ink:#C6D5F7;
+  --bg:#1A191C; --surface:#232226; --surface-2:#2D2B31; --ink:#EDEAEF; --muted:#A8A4AE; --line:#3A373F;
+  --pink:#A5A8B2; --pink-soft:#302F35; --pink-ink:#D2D4DB;
+  --blue:#C9A3C4; --blue-soft:#38293A; --blue-ink:#E9D3E6;
   --good:#8FC09D; --good-soft:#24372A; --bad:#E09A92; --bad-soft:#47292A;
   --shadow:0 1px 0 rgba(0,0,0,.2),0 14px 30px -14px rgba(0,0,0,.6); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#171C2B; --surface:#1F2638; --surface-2:#283049; --ink:#E6EBF8; --muted:#A3AECB; --line:#313B5A;
-  --pink:#C99189; --pink-soft:#46302C; --pink-ink:#F0C3BC;
-  --blue:#8FAAE6; --blue-soft:#26325A; --blue-ink:#C6D5F7;
+  --bg:#1A191C; --surface:#232226; --surface-2:#2D2B31; --ink:#EDEAEF; --muted:#A8A4AE; --line:#3A373F;
+  --pink:#A5A8B2; --pink-soft:#302F35; --pink-ink:#D2D4DB;
+  --blue:#C9A3C4; --blue-soft:#38293A; --blue-ink:#E9D3E6;
   --good:#8FC09D; --good-soft:#24372A; --bad:#E09A92; --bad-soft:#47292A;
   --shadow:0 1px 0 rgba(0,0,0,.2),0 14px 30px -14px rgba(0,0,0,.6); color-scheme:dark}
 
@@ -266,66 +266,53 @@ textarea{width:100%;min-height:70px;border:1px solid var(--line);border-radius:1
 <script>
 /* ============================================================
    ФРАЗИ. Щоб додати нові, дописуй об'єкти в CARDS, FORKS, SORTS.
-   lesson – "Wohnwelten", "Obdachlosigkeit 2"… (новий урок = нова кнопка)
+   lesson – "Finanzen", "Auf der Bank", "Versicherungen"… (новий урок = нова кнопка)
    en  – лицьовий бік (німецька фраза; ключ прогресу)   say – що читає голос (необов'язково)
    uk  – переклад   ex – приклад, ___ = пропуск   ans – слово для пропуску
    col – 2–3 колокації   dict – головне слово для словника DWDS
    ============================================================ */
 const CARDS = [
-{lesson:"Wohnwelten", en:"im Hier und Jetzt leben", dict:"jetzt", uk:"жити тут і зараз", ex:"Beim Meditieren übe ich, im Hier und Jetzt zu ___.", ans:"leben", col:["bewusst im Hier und Jetzt leben","das Hier und Jetzt genießen","im Moment leben"]},
-{lesson:"Wohnwelten", en:"etwas in vollen Zügen genießen", dict:"genießen", uk:"насолоджуватися чимось на повну, на всі сто", ex:"Im Urlaub wollten wir den Sommer in vollen Zügen ___.", ans:"genießen", col:["den Urlaub in vollen Zügen genießen","das Leben in vollen Zügen genießen","den Moment genießen"]},
-{lesson:"Wohnwelten", en:"Kundenkarten haben", dict:"Kundenkarte", uk:"мати картки клієнта (картки лояльності)", ex:"In meinem Portemonnaie stecken so viele ___, dass kaum Platz für Geld bleibt.", ans:"Kundenkarten", col:["eine Kundenkarte beantragen","mit der Kundenkarte Punkte sammeln","die Kundenkarte vorzeigen"]},
-{lesson:"Wohnwelten", en:"Bauchschmerzen bekommen", dict:"Bauchschmerzen", uk:"занепокоїтися, відчути тривогу (букв. «біль у животі»)", ex:"Wenn ich an die schwierige Prüfung denke, bekomme ich richtig ___.", ans:"Bauchschmerzen", col:["bei dem Gedanken Bauchschmerzen bekommen","etwas bereitet mir Bauchschmerzen","ein ungutes Gefühl haben"]},
-{lesson:"Wohnwelten", en:"in den Wind schlagen", dict:"Wind", uk:"пропустити повз вуха, проігнорувати", ex:"Er hat meinen Rat einfach in den ___ geschlagen.", ans:"Wind", col:["einen Rat in den Wind schlagen","eine Warnung in den Wind schlagen","alle Hinweise in den Wind schlagen"]},
-{lesson:"Wohnwelten", en:"neue Energie tanken", dict:"tanken", uk:"набратися нових сил, зарядитися енергією", ex:"Am Wochenende fahre ich ans Meer, um neue ___ zu tanken.", ans:"Energie", col:["neue Energie tanken","in der Natur Kraft tanken","Sonne tanken"]},
-{lesson:"Wohnwelten", en:"dem Stress entkommen", dict:"entkommen", uk:"уникнути стресу, втекти від стресу", ex:"Ein Spaziergang im Wald hilft mir, dem ___ zu entkommen.", ans:"Stress", col:["dem Stress entkommen","der Hektik entkommen","dem Alltag entkommen"]},
-{lesson:"Wohnwelten", en:"sesshaft werden", dict:"sesshaft", uk:"осісти на одному місці, остепенитися", ex:"Mit 35 wollte sie endlich ___ werden und nicht mehr ständig umziehen.", ans:"sesshaft", col:["endlich sesshaft werden","ein sesshaftes Leben führen","sich niederlassen"]},
-{lesson:"Wohnwelten", en:"eine Welt außerhalb der Stadt", dict:"außerhalb", uk:"світ поза містом", ex:"Auf dem Land habe ich eine Welt ___ der Stadt entdeckt.", ans:"außerhalb", col:["außerhalb der Stadt wohnen","außerhalb der Stadt arbeiten","eine neue Welt entdecken"]},
-{lesson:"Wohnwelten", en:"einen Steinwurf entfernt sein", dict:"Steinwurf", uk:"бути зовсім поруч, «рукою подати» (букв. «на відстані кидка каменя»)", ex:"Der See ist nur einen ___ von unserem Haus entfernt.", ans:"Steinwurf", col:["nur einen Steinwurf entfernt","einen Steinwurf vom Strand entfernt","ganz in der Nähe"]},
-{lesson:"Obdachlosigkeit 2", en:"die Einsamkeit", dict:"Einsamkeit", uk:"самотність", ex:"Viele Obdachlose leiden unter großer ___.", ans:"Einsamkeit", col:["unter Einsamkeit leiden", "die Einsamkeit im Alter", "gegen die Einsamkeit kämpfen"]},
-{lesson:"Obdachlosigkeit 2", en:"einsam sein", dict:"einsam", uk:"бути самотнім", ex:"Ich möchte im Alter nicht ___ sein.", ans:"einsam", col:["sich einsam fühlen", "völlig einsam sein", "einsam und allein"]},
-{lesson:"Obdachlosigkeit 2", en:"einsam", dict:"einsam", uk:"самотній", ex:"Er fühlt sich in der großen Stadt sehr ___.", ans:"einsam", col:["ein einsamer Mensch", "einsame Nächte", "einsam und verlassen"]},
-{lesson:"Obdachlosigkeit 2", en:"die Intoleranz", dict:"Intoleranz", uk:"нетерпимість", ex:"Viele Menschen reagieren mit ___ auf Obdachlose.", ans:"Intoleranz", col:["religiöse Intoleranz", "mit Intoleranz reagieren", "gegen Intoleranz kämpfen"]},
-{lesson:"Obdachlosigkeit 2", en:"nicht tolerieren", dict:"tolerieren", uk:"не терпіти, не миритися з", ex:"Die Stadt will Betteln vor dem Bahnhof nicht ___.", ans:"tolerieren", col:["Gewalt nicht tolerieren", "ein Verhalten tolerieren", "etwas nicht länger tolerieren"]},
-{lesson:"Obdachlosigkeit 2", en:"intolerant", dict:"intolerant", uk:"нетерпимий", ex:"Er ist ___ gegenüber Menschen ohne Wohnung.", ans:"intolerant", col:["intolerant gegenüber Fremden", "eine intolerante Haltung", "intolerant sein"]},
-{lesson:"Obdachlosigkeit 2", en:"die Freiheit", dict:"Freiheit", uk:"свобода", ex:"Manche sagen, dass sie auf der Straße mehr ___ haben.", ans:"Freiheit", col:["die persönliche Freiheit", "Freiheit genießen", "für die Freiheit kämpfen"]},
-{lesson:"Obdachlosigkeit 2", en:"frei sein", dict:"frei", uk:"бути вільним", ex:"Er wollte nie wieder abhängig, sondern ___ sein.", ans:"frei", col:["frei von Sorgen sein", "frei und unabhängig sein", "frei sein von Zwängen"]},
-{lesson:"Obdachlosigkeit 2", en:"frei", dict:"frei", uk:"вільний (також: вільне місце, вихідний)", ex:"Ist dieser Platz noch ___?", ans:"frei", col:["ein freier Platz", "ein freier Tag", "frei haben"]},
-{lesson:"Obdachlosigkeit 2", en:"die Isolation", dict:"Isolation", uk:"ізоляція", ex:"Lange ___ macht Menschen krank.", ans:"Isolation", col:["soziale Isolation", "in Isolation leben", "aus der Isolation herauskommen"]},
-{lesson:"Obdachlosigkeit 2", en:"sich isolieren", dict:"isolieren", uk:"ізолюватися, замикатися в собі", ex:"Nach der Scheidung hat er sich immer mehr ___.", ans:"isoliert", col:["sich von anderen isolieren", "sich sozial isolieren", "sich zurückziehen"]},
-{lesson:"Obdachlosigkeit 2", en:"isoliert", dict:"isoliert", uk:"ізольований, відрізаний від людей", ex:"Er lebt völlig ___ von seiner Familie.", ans:"isoliert", col:["isoliert leben", "sozial isoliert sein", "isoliert von der Außenwelt"]},
-{lesson:"Obdachlosigkeit 2", en:"die Obdachlosigkeit", dict:"Obdachlosigkeit", uk:"бездомність", ex:"Der Verlust der Arbeit kann zur ___ führen.", ans:"Obdachlosigkeit", col:["in die Obdachlosigkeit abrutschen", "von Obdachlosigkeit bedroht sein", "Obdachlosigkeit bekämpfen"]},
-{lesson:"Obdachlosigkeit 2", en:"obdachlos sein", dict:"obdachlos", uk:"бути бездомним", ex:"Seit drei Jahren ist er ___.", ans:"obdachlos", col:["obdachlos werden", "seit Jahren obdachlos sein", "obdachlos auf der Straße leben"]},
-{lesson:"Obdachlosigkeit 2", en:"obdachlos", dict:"obdachlos", uk:"бездомний", ex:"Viele ___ Menschen übernachten im Winter am Bahnhof.", ans:"obdachlose", col:["ein obdachloser Mann", "obdachlose Menschen", "obdachlos und arbeitslos"]},
-{lesson:"Obdachlosigkeit 2", en:"die Frustration", dict:"Frustration", uk:"розчарування, фрустрація", ex:"Die ___ über die vielen Absagen war groß.", ans:"Frustration", col:["große Frustration", "die Frustration abbauen", "aus Frustration handeln"]},
-{lesson:"Obdachlosigkeit 2", en:"frustriert sein", dict:"frustriert", uk:"бути розчарованим, фруструватися", ex:"Nach so vielen Absagen ist sie total ___.", ans:"frustriert", col:["total frustriert sein", "frustriert über etwas sein", "frustriert aufgeben"]},
-{lesson:"Obdachlosigkeit 2", en:"frustriert", dict:"frustriert", uk:"розчарований, роздратований", ex:"Er wirkte müde und ___.", ans:"frustriert", col:["frustriert wirken", "ein frustrierter Mensch", "frustriert und wütend"]},
-{lesson:"Obdachlosigkeit 2", en:"die Armut", dict:"Armut", uk:"бідність", ex:"In dieser Gegend leben viele Familien in ___.", ans:"Armut", col:["in Armut leben", "von Armut bedroht sein", "die Armut bekämpfen"]},
-{lesson:"Obdachlosigkeit 2", en:"arm sein", dict:"arm", uk:"бути бідним", ex:"Wir waren damals sehr ___.", ans:"arm", col:["sehr arm sein", "arm, aber glücklich", "arm an Geld"]},
-{lesson:"Obdachlosigkeit 2", en:"arm", dict:"arm", uk:"бідний", ex:"Er kommt aus einer ___ Familie.", ans:"armen", col:["arme Menschen", "ein armes Land", "Arm und Reich"]},
-{lesson:"Obdachlosigkeit 2", en:"die Familie", dict:"Familie", uk:"сім'я", ex:"Seine ___ wohnt weit weg, deshalb hat er kaum Kontakt.", ans:"Familie", col:["eine Familie gründen", "zur Familie gehören", "Kontakt zur Familie haben"]},
-{lesson:"Obdachlosigkeit 2", en:"das Wohnheim", dict:"Wohnheim", uk:"гуртожиток, соціальний притулок", ex:"Nach der Scheidung zog er in ein ___.", ans:"Wohnheim", col:["im Wohnheim wohnen", "ein Wohnheim für Obdachlose", "ein Platz im Wohnheim"]},
-{lesson:"Obdachlosigkeit 2", en:"das Sozialamt", dict:"Sozialamt", uk:"соціальна служба, відомство соціальної допомоги", ex:"Er hat beim ___ Hilfe beantragt.", ans:"Sozialamt", col:["zum Sozialamt gehen", "beim Sozialamt Hilfe beantragen", "vom Sozialamt unterstützt werden"]},
-{lesson:"Obdachlosigkeit 2", en:"die Freunde", dict:"Freund", uk:"друзі", ex:"Ohne ___ fühlt man sich schnell allein.", ans:"Freunde", col:["gute Freunde", "Freunde verlieren", "Freunde finden"]},
-{lesson:"Obdachlosigkeit 2", en:"die Angst", dict:"Angst", uk:"страх, тривога", ex:"Sie hat ___ vor dem nächsten Winter.", ans:"Angst", col:["Angst haben vor", "aus Angst", "vor Angst zittern"]},
-{lesson:"Obdachlosigkeit 2", en:"die Perspektive", dict:"Perspektive", uk:"перспектива", ex:"Ohne Wohnung sehen viele keine ___.", ans:"Perspektive", col:["eine Perspektive haben", "keine Perspektive sehen", "neue Perspektiven eröffnen"]},
-{lesson:"Obdachlosigkeit 2", en:"die Hoffnung", dict:"Hoffnung", uk:"надія", ex:"Trotz allem gibt er die ___ nicht auf.", ans:"Hoffnung", col:["die Hoffnung aufgeben", "Hoffnung haben", "die Hoffnung nicht verlieren"]},
-{lesson:"Obdachlosigkeit 2", en:"die Suppenküche", dict:"Suppenküche", uk:"безкоштовна їдальня для бідних", ex:"Im Winter bekommen viele Obdachlose ein warmes Essen in der ___.", ans:"Suppenküche", col:["in die Suppenküche gehen", "eine Suppenküche für Bedürftige", "ehrenamtlich in der Suppenküche helfen"]},
-{lesson:"Obdachlosigkeit 2", en:"der Alkohol", dict:"Alkohol", uk:"алкоголь", ex:"Viele flüchten in den ___, wenn sie ihre Probleme nicht lösen können.", ans:"Alkohol", col:["Alkohol trinken", "vom Alkohol abhängig sein", "Alkohol missbrauchen"]},
-{lesson:"Obdachlosigkeit 2", en:"die Scheidung", dict:"Scheidung", uk:"розлучення", ex:"Nach der ___ verlor er auch seine Wohnung.", ans:"Scheidung", col:["die Scheidung einreichen", "kurz vor der Scheidung stehen", "die Folgen einer Scheidung"]},
-{lesson:"Obdachlosigkeit 2", en:"die Schulden", dict:"Schulden", uk:"борги (лише множина)", ex:"Er hat so hohe ___, dass er die Miete nicht mehr zahlen konnte.", ans:"Schulden", col:["Schulden haben", "Schulden machen", "Schulden zurückzahlen"]},
-{lesson:"Obdachlosigkeit 2", en:"die Chancenlosigkeit", dict:"Chancenlosigkeit", uk:"безперспективність, відсутність шансів", ex:"Viele junge Menschen ohne Ausbildung klagen über ___.", ans:"Chancenlosigkeit", col:["das Gefühl der Chancenlosigkeit", "unter Chancenlosigkeit leiden"]},
-{lesson:"Obdachlosigkeit 2", en:"die Krankheit", dict:"Krankheit", uk:"хвороба", ex:"Eine schwere ___ kann Menschen in die Armut treiben.", ans:"Krankheit", col:["an einer Krankheit leiden", "eine schwere Krankheit", "eine Krankheit behandeln"]},
-{lesson:"Obdachlosigkeit 2", en:"die Erfolglosigkeit", dict:"Erfolglosigkeit", uk:"невдачі, відсутність успіху", ex:"Nach Jahren der ___ bei der Jobsuche gab er auf.", ans:"Erfolglosigkeit", col:["jahrelange Erfolglosigkeit", "an Erfolglosigkeit verzweifeln"]},
-{lesson:"Obdachlosigkeit 2", en:"die Randgruppe", dict:"Randgruppe", uk:"маргінальна група", ex:"Obdachlose gehören oft zu den gesellschaftlichen ___.", ans:"Randgruppen", col:["eine gesellschaftliche Randgruppe", "zu einer Randgruppe gehören", "am Rand der Gesellschaft"]},
-{lesson:"Obdachlosigkeit 2", en:"die Notunterkunft", dict:"Notunterkunft", uk:"нічліжка, тимчасовий притулок", ex:"Im Winter öffnen viele Städte zusätzliche ___ für Obdachlose.", ans:"Notunterkünfte", col:["in einer Notunterkunft übernachten", "einen Platz in der Notunterkunft bekommen", "eine Notunterkunft für Obdachlose"]},
-{lesson:"Obdachlosigkeit 2", en:"mein Kopf explodiert", dict:"explodieren", uk:"у мене голова розривається (забагато всього)", ex:"Zu viele Sorgen auf einmal, mein Kopf ___ gleich.", ans:"explodiert", col:["mir raucht der Kopf", "mir brummt der Kopf", "zu viele Gedanken im Kopf haben"]},
-{lesson:"Obdachlosigkeit 2", en:"sich etwas ausdenken", dict:"ausdenken", uk:"вигадати, придумати щось", ex:"Ich habe mir eine kleine Geschichte ___.", ans:"ausgedacht", col:["sich eine Geschichte ausdenken", "sich eine Lösung ausdenken", "sich Ausreden ausdenken"]},
-{lesson:"Obdachlosigkeit 2", en:"13 Jahre hintereinander", dict:"hintereinander", uk:"13 років поспіль", ex:"Er hat 13 Jahre ___ auf der Straße gelebt.", ans:"hintereinander", col:["drei Tage hintereinander", "mehrere Jahre hintereinander", "zweimal hintereinander"], say:"dreizehn Jahre hintereinander"},
-{lesson:"Obdachlosigkeit 2", en:"gepflegt", dict:"gepflegt", uk:"доглянутий, охайний", ex:"Trotz seiner Lage sieht er immer ___ aus.", ans:"gepflegt", col:["gepflegt aussehen", "ein gepflegtes Äußeres", "gepflegte Kleidung"]},
-{lesson:"Obdachlosigkeit 2", en:"die Folge", dict:"Folge", uk:"наслідок", ex:"Obdachlosigkeit kann die ___ einer Scheidung sein.", ans:"Folge", col:["die Folge von etwas sein", "schlimme Folgen haben", "als Folge davon"]},
-{lesson:"Obdachlosigkeit 2", en:"aus unterschiedlichen Blickwinkeln", dict:"Blickwinkel", uk:"під різними кутами зору", ex:"Wir sollten das Problem aus unterschiedlichen ___ betrachten.", ans:"Blickwinkeln", col:["aus einem anderen Blickwinkel", "etwas aus allen Blickwinkeln betrachten", "ein neuer Blickwinkel"]},
-{lesson:"Obdachlosigkeit 2", en:"ich neige zu ...", dict:"neigen", uk:"я схильний до ...", ex:"Ich ___ zu schnellen Entscheidungen.", ans:"neige", col:["zu Übertreibungen neigen", "dazu neigen, etwas zu tun", "zu Stress neigen"], say:"ich neige zu etwas"},
+{lesson:"Finanzen", en:"Wohnen und Energie", dict:"Energie", uk:"житло та енергія (оренда, комунальні послуги)", ex:"Die Ausgaben für Wohnen und ___ sind im Winter besonders hoch.", ans:"Energie", col:["die Kosten für Wohnen und Energie", "hohe Energiekosten", "Strom und Heizung bezahlen"]},
+{lesson:"Finanzen", en:"Verkehr", dict:"Verkehr", uk:"транспорт (витрати на проїзд)", ex:"Für den ___ gebe ich im Monat etwa 80 Euro aus.", ans:"Verkehr", col:["der öffentliche Verkehr", "Ausgaben für den Verkehr", "dichter Verkehr"]},
+{lesson:"Finanzen", en:"Möbel und Haushaltsgeräte", dict:"Haushaltsgerät", uk:"меблі та побутова техніка", ex:"Für Möbel und ___ habe ich dieses Jahr viel Geld ausgegeben.", ans:"Haushaltsgeräte", col:["neue Möbel kaufen", "ein Haushaltsgerät reparieren", "Möbel und Haushaltsgeräte im Angebot"]},
+{lesson:"Finanzen", en:"die Übernachtung", dict:"Übernachtung", uk:"нічліг, проживання (в готелі)", ex:"Die ___ im Hotel kostet 70 Euro pro Nacht.", ans:"Übernachtung", col:["die Übernachtung buchen", "Übernachtung mit Frühstück", "die Kosten für die Übernachtung"]},
+{lesson:"Finanzen", en:"Kleidung und Schuhe", dict:"Kleidung", uk:"одяг і взуття", ex:"Für Kleidung und ___ gebe ich im Monat etwa 50 Euro aus.", ans:"Schuhe", col:["Kleidung kaufen", "neue Schuhe anprobieren", "Kleidung und Schuhe im Angebot"]},
+{lesson:"Finanzen", en:"Freizeit und Kultur", dict:"Freizeit", uk:"дозвілля і культура", ex:"Für Freizeit und ___ bleibt bei mir nicht viel Geld übrig.", ans:"Kultur", col:["Geld für die Freizeit ausgeben", "Kino- und Theaterbesuche", "kulturelle Angebote"]},
+{lesson:"Finanzen", en:"die Genussmittel", dict:"Genussmittel", uk:"предмети споживання для задоволення (кава, алкоголь, тютюн, солодощі)", ex:"Zu den ___ zählen zum Beispiel Kaffee, Tee und Schokolade.", ans:"Genussmittel", col:["Genussmittel kaufen", "Ausgaben für Genussmittel", "auf Genussmittel verzichten"]},
+{lesson:"Finanzen", en:"Ausgaben kontrollieren", dict:"Ausgabe", uk:"контролювати витрати", ex:"Mit einer App kann ich meine Ausgaben gut ___.", ans:"kontrollieren", col:["seine Ausgaben genau kontrollieren", "die Ausgaben im Blick behalten", "die Ausgaben aufschreiben"]},
+{lesson:"Finanzen", en:"ausgeben", dict:"ausgeben", uk:"витрачати гроші", ex:"Im Urlaub habe ich viel Geld ___.", ans:"ausgegeben", col:["Geld für etwas ausgeben", "zu viel ausgeben", "Geld unnötig ausgeben"]},
+{lesson:"Finanzen", en:"Geld sparen", dict:"sparen", uk:"економити гроші", ex:"Wenn ich weniger shoppe, kann ich mehr Geld ___.", ans:"sparen", col:["auf etwas sparen", "am Strom sparen", "jeden Monat Geld sparen"]},
+{lesson:"Finanzen", en:"Geld einteilen", dict:"einteilen", uk:"розподіляти гроші", ex:"Am Monatsanfang muss ich mein Geld gut ___.", ans:"einteilen", col:["sich das Geld gut einteilen", "das Geld für den Monat einteilen", "Zeit und Geld einteilen"]},
+{lesson:"Finanzen", en:"billig", dict:"billig", uk:"дешево, дешевий", ex:"Im Supermarkt ist das Obst heute besonders ___.", ans:"billig", col:["billig einkaufen", "ein billiges Hotel", "nicht ganz billig sein"]},
+{lesson:"Finanzen", en:"der Kontostand", dict:"Kontostand", uk:"баланс на рахунку", ex:"Ich prüfe in der App meinen ___.", ans:"Kontostand", col:["den Kontostand prüfen", "der aktuelle Kontostand", "ein hoher Kontostand"]},
+{lesson:"Finanzen", en:"im Angebot sein", dict:"Angebot", uk:"бути за акційною ціною (зі знижкою)", ex:"Diese Jacke ist gerade im ___.", ans:"Angebot", col:["etwas im Angebot kaufen", "Sonderangebote nutzen", "ein günstiges Angebot"]},
+{lesson:"Finanzen", en:"die Einnahmen und Ausgaben", dict:"Einnahme", uk:"доходи та витрати", ex:"Ich schreibe alle ___ und Ausgaben in eine Tabelle.", ans:"Einnahmen", col:["Einnahmen und Ausgaben vergleichen", "die monatlichen Einnahmen", "die Einnahmen steigen"]},
+{lesson:"Finanzen", en:"Geld zurücklegen", dict:"zurücklegen", uk:"відкладати гроші", ex:"Jeden Monat lege ich 50 Euro für den Urlaub ___.", ans:"zurück", col:["Geld für den Urlaub zurücklegen", "etwas für schlechte Zeiten zurücklegen", "jeden Monat Geld zurücklegen"]},
+{lesson:"Finanzen", en:"umtauschen", dict:"umtauschen", uk:"обміняти, повернути назад (товар у магазині)", ex:"Die Hose ist zu klein, ich möchte sie ___.", ans:"umtauschen", col:["eine Hose umtauschen", "Euro in Dollar umtauschen", "mit Kassenzettel umtauschen"]},
+{lesson:"Auf der Bank", en:"eine Überweisung machen", dict:"Überweisung", uk:"зробити переказ", ex:"Ich muss noch schnell eine ___ machen, sonst zahle ich die Miete zu spät.", ans:"Überweisung", col:["eine Überweisung ausfüllen", "eine Überweisung tätigen", "die Überweisung dauert zwei Tage"]},
+{lesson:"Auf der Bank", en:"ein Konto eröffnen", dict:"Konto", uk:"відкрити рахунок", ex:"Ich möchte bei dieser Bank ein Konto ___.", ans:"eröffnen", col:["ein Girokonto eröffnen", "ein Konto bei der Bank haben", "ein Konto kündigen"]},
+{lesson:"Auf der Bank", en:"Kontoauszüge holen", dict:"Kontoauszug", uk:"отримати банківські виписки", ex:"Am Automaten kann man seine ___ holen.", ans:"Kontoauszüge", col:["Kontoauszüge ausdrucken", "der Kontoauszug vom Monat", "Kontoauszüge am Automaten holen"]},
+{lesson:"Auf der Bank", en:"einen Kredit beantragen", dict:"Kredit", uk:"подати заявку на кредит", ex:"Für das Auto möchte ich bei der Bank einen ___ beantragen.", ans:"Kredit", col:["einen Kredit aufnehmen", "einen Kredit zurückzahlen", "ein Kredit mit niedrigen Zinsen"]},
+{lesson:"Auf der Bank", en:"eine Online-Überweisung machen", dict:"Überweisung", uk:"зробити онлайн-переказ", ex:"Eine ___ ist bequem, man muss nicht zur Bank gehen.", ans:"Online-Überweisung", col:["eine Online-Überweisung tätigen", "per Online-Überweisung bezahlen", "mit dem Handy überweisen"]},
+{lesson:"Auf der Bank", en:"Geld abheben", dict:"abheben", uk:"зняти гроші", ex:"Ich muss am Automaten noch 50 Euro ___.", ans:"abheben", col:["Bargeld abheben", "Geld am Automaten abheben", "vom Konto abheben"]},
+{lesson:"Auf der Bank", en:"Geld überweisen", dict:"überweisen", uk:"переказати гроші", ex:"Ich ___ dir das Geld heute noch.", ans:"überweise", col:["die Miete überweisen", "auf ein Konto überweisen", "Geld ins Ausland überweisen"]},
+{lesson:"Auf der Bank", en:"Geld wechseln", dict:"wechseln", uk:"обміняти гроші (валюту)", ex:"Vor der Reise möchte ich Euro in Lari ___.", ans:"wechseln", col:["Euro in Dollar wechseln", "Geld bei der Bank wechseln", "Kleingeld wechseln"]},
+{lesson:"Auf der Bank", en:"Geld einzahlen", dict:"einzahlen", uk:"вкладати гроші (вносити на рахунок)", ex:"Ich möchte 200 Euro auf mein Konto ___.", ans:"einzahlen", col:["Geld auf das Konto einzahlen", "Bargeld einzahlen", "am Automaten einzahlen"]},
+{lesson:"Auf der Bank", en:"Geld anlegen", dict:"anlegen", uk:"інвестувати гроші", ex:"Er will sein Geld in Aktien ___.", ans:"anlegen", col:["Geld in Aktien anlegen", "Geld langfristig anlegen", "Geld sicher anlegen"]},
+{lesson:"Versicherungen", en:"die Haftpflichtversicherung", dict:"Haftpflichtversicherung", uk:"страхування цивільної відповідальності", ex:"Die ___ zahlt, wenn ich aus Versehen einen Schaden bei anderen verursache.", ans:"Haftpflichtversicherung", col:["eine Haftpflichtversicherung abschließen", "die Haftpflichtversicherung zahlt", "den Schaden der Haftpflichtversicherung melden"]},
+{lesson:"Versicherungen", en:"die Rentenversicherung", dict:"Rentenversicherung", uk:"пенсійне страхування", ex:"Von meinem Gehalt wird jeden Monat Geld für die ___ abgezogen.", ans:"Rentenversicherung", col:["in die Rentenversicherung einzahlen", "die gesetzliche Rentenversicherung", "Beiträge zur Rentenversicherung"]},
+{lesson:"Versicherungen", en:"die Krankenversicherung", dict:"Krankenversicherung", uk:"медичне страхування", ex:"In Deutschland braucht jeder eine ___.", ans:"Krankenversicherung", col:["die gesetzliche Krankenversicherung", "privat krankenversichert sein", "die Krankenversicherung wechseln"]},
+{lesson:"Versicherungen", en:"die Rechtsschutzversicherung", dict:"Rechtsschutzversicherung", uk:"страхування юридичних витрат (правового захисту)", ex:"Mit einer ___ übernimmt die Versicherung die Kosten für den Rechtsanwalt.", ans:"Rechtsschutzversicherung", col:["eine Rechtsschutzversicherung abschließen", "Rechtsschutzversicherung für Mieter", "die Kosten übernimmt die Versicherung"]},
+{lesson:"Versicherungen", en:"die Hausratversicherung", dict:"Hausratversicherung", uk:"страхування домашнього майна", ex:"Bei einem Einbruch hilft die ___ weiter.", ans:"Hausratversicherung", col:["eine Hausratversicherung abschließen", "gegen Einbruch und Feuer versichert sein", "die Hausratversicherung zahlt bei Diebstahl"]},
+{lesson:"Versicherungen", en:"die Kfz-Versicherung", dict:"Kfz-Versicherung", uk:"автострахування", ex:"Für jedes Auto in Deutschland braucht man eine ___.", ans:"Kfz-Versicherung", col:["die Kfz-Versicherung wechseln", "die Kfz-Versicherung vergleichen", "eine Kfz-Versicherung für das Auto"]},
+{lesson:"Versicherungen", en:"sich kümmern um + Akk.", dict:"kümmern", uk:"піклуватися про щось, займатися чимось", ex:"Ich muss mich rechtzeitig ___ eine Versicherung kümmern.", ans:"um", col:["sich um die Kinder kümmern", "sich um die Versicherung kümmern", "sich um alles kümmern"]},
+{lesson:"Versicherungen", en:"der Vertreter", dict:"Vertreter", uk:"представник (наприклад, страхової компанії)", ex:"Der ___ der Versicherung kommt morgen zu uns nach Hause.", ans:"Vertreter", col:["ein Vertreter der Versicherung", "mit dem Vertreter sprechen", "der Vertreter einer Firma"]},
+{lesson:"Versicherungen", en:"stehlen", dict:"stehlen", uk:"красти, вкрасти", ex:"Jemand hat mein Fahrrad ___.", ans:"gestohlen", col:["ein Auto stehlen", "Geld stehlen", "gestohlen werden"]},
+{lesson:"Versicherungen", en:"der, die Angestellte", dict:"Angestellter", uk:"працівник, працівниця (найманий)", ex:"Meine Schwester ist ___ bei einer Versicherung.", ans:"Angestellte", col:["als Angestellte arbeiten", "ein Angestellter einer Firma", "Angestellte im öffentlichen Dienst"]},
+{lesson:"Versicherungen", en:"die Versicherung abschließen", dict:"abschließen", uk:"укласти (підключити) страхування", ex:"Vor der Reise habe ich eine Versicherung ___.", ans:"abgeschlossen", col:["eine Versicherung abschließen", "einen Vertrag abschließen", "die Versicherung kündigen"]},
+{lesson:"Versicherungen", en:"der Rechtsanwalt", dict:"Rechtsanwalt", uk:"юрист, адвокат", ex:"Nach dem Unfall hat er einen ___ angerufen.", ans:"Rechtsanwalt", col:["einen Rechtsanwalt beauftragen", "zum Rechtsanwalt gehen", "einen Rechtsanwalt brauchen"]},
+{lesson:"Versicherungen", en:"der Reifen", dict:"Reifen", uk:"шина, колесо", ex:"Im Winter muss man die ___ wechseln.", ans:"Reifen", col:["die Reifen wechseln", "ein Reifen ist platt", "Winterreifen aufziehen"]},
+{lesson:"Versicherungen", en:"gebraucht", dict:"gebraucht", uk:"б/у, вживаний", ex:"Ich habe ein ___ Auto gekauft.", ans:"gebrauchtes", col:["ein gebrauchtes Auto kaufen", "gebraucht kaufen", "gebrauchte Möbel"]},
 {lesson:"Kaufen und reklamieren", en:"die Bewertungen", dict:"Bewertung", uk:"відгуки, оцінки (відгук)", ex:"Vor dem Kauf lese ich immer die ___ im Internet.", ans:"Bewertungen", col:["Bewertungen lesen", "gute Bewertungen", "schlechte Bewertungen"]},
 {lesson:"Kaufen und reklamieren", en:"der Link", dict:"Link", uk:"посилання", ex:"Ich schicke dir den ___ zum Produkt per E-Mail.", ans:"Link", col:["einen Link schicken", "auf den Link klicken", "der Link zum Produkt"]},
 {lesson:"Kaufen und reklamieren", en:"der Staubsauger", dict:"Staubsauger", uk:"пилосос", ex:"Mein alter ___ ist kaputt, ich brauche einen neuen.", ans:"Staubsauger", col:["einen Staubsauger kaufen", "ein leiser Staubsauger", "den Staubsauger reklamieren"]},
@@ -345,14 +332,14 @@ const CARDS = [
 
 /* FORKS: ключове слово + що з ним поєднується (ok) + одне зайве (bad) */
 const FORKS = [
-{lesson:"Wohnwelten", word:"genießen", ok:["den Moment","die Ruhe","das Leben"], bad:["Kopfschmerzen"], why:"den Moment / die Ruhe / das Leben genießen, але Kopfschmerzen man hat, а не genießt."},
-{lesson:"Wohnwelten", word:"tanken", ok:["Energie","Kraft","Sonne"], bad:["Stress"], why:"Energie / Kraft / Sonne tanken, але Stress hat man або baut ihn ab."},
-{lesson:"Wohnwelten", word:"entkommen", ok:["dem Stress","der Hektik","dem Lärm"], bad:["den Alltag"], why:"entkommen + Dativ: dem Stress, der Hektik, dem Lärm. Тож dem Alltag entkommen, а не «den Alltag»."},
-{lesson:"Wohnwelten", word:"in den Wind schlagen", ok:["einen Rat","eine Warnung","einen Hinweis"], bad:["eine Rechnung"], why:"einen Rat / eine Warnung / einen Hinweis in den Wind schlagen, але eine Rechnung bezahlt man."},
-{lesson:"Obdachlosigkeit 2", word:"Schulden", ok:["machen", "haben", "zurückzahlen"], bad:["genießen"], why:"Schulden machen / haben / zurückzahlen, але не genießen."},
-{lesson:"Obdachlosigkeit 2", word:"Angst", ok:["haben", "bekommen", "überwinden"], bad:["beantragen"], why:"Angst haben / bekommen / überwinden. Beantragen — це про документ чи допомогу."},
-{lesson:"Obdachlosigkeit 2", word:"Hilfe", ok:["beantragen", "bekommen", "brauchen"], bad:["tolerieren"], why:"Hilfe beantragen / bekommen / brauchen. Tolerieren — це про поведінку (Gewalt nicht tolerieren)."},
-{lesson:"Obdachlosigkeit 2", word:"Armut", ok:["bekämpfen", "verhindern", "überwinden"], bad:["reparieren"], why:"Armut bekämpfen / verhindern / überwinden. Reparieren — про речі, не про проблеми."},
+{lesson:"Finanzen", word:"Geld", ok:["ausgeben", "sparen", "zurücklegen"], bad:["abschließen"], why:"Geld ausgeben / sparen / zurücklegen. Abschließen — це про договір (eine Versicherung abschließen)."},
+{lesson:"Finanzen", word:"Ausgaben", ok:["kontrollieren", "senken", "aufschreiben"], bad:["eröffnen"], why:"Ausgaben kontrollieren / senken / aufschreiben. Eröffnen — це про рахунок (ein Konto eröffnen)."},
+{lesson:"Auf der Bank", word:"Konto", ok:["eröffnen", "kündigen", "überziehen"], bad:["abheben"], why:"ein Konto eröffnen / kündigen / überziehen. Abheben — це про готівку (Geld abheben)."},
+{lesson:"Auf der Bank", word:"Kredit", ok:["beantragen", "aufnehmen", "zurückzahlen"], bad:["wechseln"], why:"einen Kredit beantragen / aufnehmen / zurückzahlen. Wechseln — це про валюту чи дрібні гроші."},
+{lesson:"Auf der Bank", word:"Bargeld", ok:["abheben", "einzahlen", "wechseln"], bad:["beantragen"], why:"Bargeld abheben / einzahlen / wechseln. Beantragen — це про документ, кредит чи допомогу."},
+{lesson:"Versicherungen", word:"Versicherung", ok:["abschließen", "kündigen", "wechseln"], bad:["stehlen"], why:"eine Versicherung abschließen / kündigen / wechseln. Stehlen — це про крадіжку (ein Fahrrad stehlen)."},
+{lesson:"Versicherungen", word:"Reifen", ok:["wechseln", "aufpumpen", "kaufen"], bad:["abschließen"], why:"die Reifen wechseln / aufpumpen / kaufen. Abschließen — це про договір, а не про речі."},
+{lesson:"Versicherungen", word:"Rechtsanwalt", ok:["beauftragen", "anrufen", "brauchen"], bad:["stehlen"], why:"einen Rechtsanwalt beauftragen / anrufen / brauchen. Stehlen — про крадіжку, не про послугу."},
 {lesson:"Kaufen und reklamieren", word:"Reklamation", ok:["einreichen","schreiben","bearbeiten"], bad:["genießen"], why:"eine Reklamation einreichen / schreiben / bearbeiten. Genießen — про приємні речі, не про скаргу."},
 {lesson:"Kaufen und reklamieren", word:"Bewertungen", ok:["lesen","schreiben","vergleichen"], bad:["kochen"], why:"Bewertungen lesen / schreiben / vergleichen. Kochen — про їжу."},
 {lesson:"Kaufen und reklamieren", word:"Vorteil", ok:["haben","nennen","bieten"], bad:["reklamieren"], why:"einen Vorteil haben / nennen / bieten. Reklamieren — про дефектний товар, а не про перевагу."},
@@ -360,14 +347,18 @@ const FORKS = [
 
 /* SORTS: один набір груп на урок; кожна фраза лише в одній групі */
 const SORTS = [
-{lesson:"Wohnwelten", title:"Про що ця фраза?", cats:{
-  "Відпочинок і задоволення":["im Hier und Jetzt leben","etwas in vollen Zügen genießen","neue Energie tanken"],
-  "Місто, дім і повсякдення":["Kundenkarten haben","sesshaft werden","eine Welt außerhalb der Stadt","einen Steinwurf entfernt sein"],
-  "Проблеми й напруга":["Bauchschmerzen bekommen","dem Stress entkommen","in den Wind schlagen"]}},
-{lesson:"Obdachlosigkeit 2", title:"Причина, почуття чи допомога?", cats:{
-  "Причини бездомності":["die Scheidung","die Schulden","der Alkohol","die Krankheit"],
-  "Почуття":["die Einsamkeit","die Angst","die Frustration","die Hoffnung"],
-  "Допомога й місця":["das Sozialamt","die Suppenküche","die Notunterkunft","das Wohnheim"]}},
+{lesson:"Finanzen", title:"Категорія, дія чи ціна?", cats:{
+  "Категорії витрат":["Wohnen und Energie", "Verkehr", "Möbel und Haushaltsgeräte", "die Übernachtung", "Kleidung und Schuhe", "Freizeit und Kultur", "die Genussmittel"],
+  "Що робити з грошима":["Ausgaben kontrollieren", "Geld sparen", "Geld einteilen", "Geld zurücklegen"],
+  "Ціни, покупки й рахунок":["ausgeben", "billig", "im Angebot sein", "umtauschen", "der Kontostand", "die Einnahmen und Ausgaben"]}},
+{lesson:"Auf der Bank", title:"Операція, документ чи гроші?", cats:{
+  "Оформити в банку":["eine Überweisung machen", "ein Konto eröffnen", "einen Kredit beantragen", "eine Online-Überweisung machen"],
+  "Документи":["Kontoauszüge holen"],
+  "Робити з грошима":["Geld abheben", "Geld überweisen", "Geld wechseln", "Geld einzahlen", "Geld anlegen"]}},
+{lesson:"Versicherungen", title:"Вид страхування, слово чи дія?", cats:{
+  "Види страхування":["die Haftpflichtversicherung", "die Rentenversicherung", "die Krankenversicherung", "die Rechtsschutzversicherung", "die Hausratversicherung", "die Kfz-Versicherung"],
+  "Люди й речі":["der Vertreter", "der, die Angestellte", "der Rechtsanwalt", "der Reifen", "gebraucht"],
+  "Дії":["sich kümmern um + Akk.", "stehlen", "die Versicherung abschließen"]}},
 {lesson:"Kaufen und reklamieren", title:"Позитив, негатив чи покупка?", cats:{
   "Позитивна думка":["Der Vorteil von ... ist, dass ...","Ich finde gut, dass ...","Wenn man wenig Platz/Geld/... hat, ist die Maschine ... gut."],
   "Негативна думка":["Der Nachteil von ... ist, dass ...","Ich finde nicht so gut, dass ...","Schlecht ist, dass ..."],
